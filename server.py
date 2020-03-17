@@ -6,12 +6,12 @@ import socket
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 #mapeamento do endereco:porta do servidor
-serv.bind(('192.168.0.119', 8080))
+serv.bind(('192.168.15.5', 8080))
 
 #escuta a porta
 serv.listen(5)
 
-name = raw_input("Digite seu nome: ")
+name = input("Digite seu nome: ")
 
 while True:
     #aceita conexao retornando um descritor
@@ -25,8 +25,9 @@ while True:
     conn.send(bytearray(name,encoding='utf8')) #envio de mensagem para cliente
 
     client_name = data = conn.recv(4096) #recebe mensagem
-    print ("\nConectado com " + data)
-    text = raw_input("\nVoce: ")
+    print ("\nConectado com ", end = "")
+    print(data)
+    text = input("\nVoce: ")
     conn.send(bytearray(text,encoding='utf8')) #envio de mensagem para cliente
     
     while True:
@@ -37,8 +38,13 @@ while True:
 
         if data != from_client:
             from_client = data
-            print ("\n" + client_name + ": " + from_client)
-            text = raw_input("\nVoce: ")
+            
+            print ("\n")
+            print(client_name, end = "")
+            print(": ", end = "")
+            print(from_client)
+
+            text = input("\nVoce: ")
             conn.send(bytearray(text,encoding='utf8')) #envio de mensagem para cliente
 
     conn.close() #finaliza conexao para com cliente
